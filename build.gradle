@@ -1,0 +1,113 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'io.papermc.paperweight.userdev' version '2.0.0-beta.8'
+}
+
+// Task to generate the sources JAR
+tasks.register('sourcesJar', Jar) {
+    archiveClassifier.set('sources')
+    from sourceSets.main.allSource
+}
+
+group = 'com.creepyx'
+version = '1.0.0'
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/CreepyX-Dev/CreepyAPI")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR") ?: project.findProperty("gpr.user")
+                password = System.getenv("GITHUB_TOKEN") ?: project.findProperty("gpr.key")
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact tasks.named('sourcesJar')
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/CreepyX-Dev/CreepyBase")
+        credentials {
+            username = System.getenv("GITHUB_ACTOR") ?: project.findProperty("gpr.user")
+            password = System.getenv("GITHUB_TOKEN") ?: project.findProperty("gpr.key")
+        }
+    }
+    maven {
+        url = 'https://jitpack.io'
+    }
+    maven {
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    maven {
+        url = "https://repo.codemc.org/repository/maven-public/"
+    }
+    maven {
+        url = "https://maven.enginehub.org/repo/"
+    }
+    maven {
+        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
+    maven {
+        name = "meteor-maven"
+        url = "https://maven.meteordev.org/releases"
+    }
+}
+
+dependencies {
+    paperweight.paperDevBundle('1.21.4-R0.1-SNAPSHOT')
+    implementation ("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.7.0")
+    compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
+    compileOnly "org.jetbrains:annotations:25.0.0"
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    // exclude guava from worldguard
+    compileOnly('com.sk89q.worldguard:worldguard-core:7.0.12') {
+        exclude group: 'com.google.guava', module: 'guava'
+    }
+    // exclude guava from worldguard
+    compileOnly('com.sk89q.worldguard:worldguard-bukkit:7.0.12') {
+        exclude group: 'com.google.guava', module: 'guava'
+    }
+    annotationProcessor "org.jetbrains:annotations:25.0.0"
+    annotationProcessor "org.projectlombok:lombok:1.18.34"
+}
+
+def targetJavaVersion = 21
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release.set(targetJavaVersion)
+    }
+}
+
+configurations.configureEach {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'com.google.code.gson' && details.requested.name == 'gson') {
+            // Force all dependencies to use Gson 2.11.0
+            details.useVersion '2.11.0'
+        }
+        if (details.requested.group == 'it.unimi.dsi' && details.requested.name == 'fastutil') {
+            // Force the use of fastutil version 8.5.15
+            details.useVersion '8.5.15'
+        }
+    }
+}
