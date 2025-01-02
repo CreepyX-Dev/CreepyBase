@@ -23,7 +23,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      - run: ./gradlew shadowJar && ./gradlew api:javadoc && mkdir staging && tar -cvf javadoc.zip api/build/docs/ && mv javadoc.zip staging/ && cp bukkit/build/libs/*.jar staging/ && cp api/build/libs/*.jar staging/
+      - run: ./gradlew shadowJar && ./gradlew javadoc && mkdir staging && tar -cvf javadoc.zip api/build/docs/ && mv javadoc.zip staging/ && cp build/libs/*.jar staging/
       - uses: actions/upload-artifact@v3
         with:
           name: Package
