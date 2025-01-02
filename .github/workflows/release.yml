@@ -1,0 +1,35 @@
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  build-number: ${GITHUB_RUN_NUMBER}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'liberica'
+          cache: 'gradle'
+      - run: ./gradlew shadowJar && ./gradlew api:javadoc && mkdir staging && tar -cvf javadoc.zip api/build/docs/ && mv javadoc.zip staging/ && cp bukkit/build/libs/*.jar staging/ && cp api/build/libs/*.jar staging/
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Package
+          path: staging
+          retention-days: 1
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
+          automatic_release_tag: "${{ github.run_number }}"
+          title: "${{project.property.minecraft.version}}Automated Build ${{ github.run_number }}"
+          prerelease: false
+          files: |
+            staging/*.jar
+            staging/*.zip

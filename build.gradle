@@ -18,31 +18,36 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/CreepyX-Dev/CreepyAPI")
-            credentials {
+            url = uri("https://maven.pkg.github.com/CreepyX-Dev/CreeepyBase")
+            credentials () {
+//                name = "Authorization"
+//                value = "Bearer ${project.findProperty('gpr.token') ?: System.getenv('TOKEN')}"
                 username = System.getenv("GITHUB_ACTOR") ?: project.findProperty("gpr.user")
                 password = System.getenv("GITHUB_TOKEN") ?: project.findProperty("gpr.key")
             }
+//            authentication {
+//                header(HttpHeaderAuthentication)
+//            }
         }
     }
     publications {
         mavenJava(MavenPublication) {
             from components.java
-            artifact tasks.named('sourcesJar')
+//            artifact tasks.named('sourcesJar')
         }
     }
 }
 
 repositories {
     mavenCentral()
-    maven {
-        name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/CreepyX-Dev/CreepyBase")
-        credentials {
-            username = System.getenv("GITHUB_ACTOR") ?: project.findProperty("gpr.user")
-            password = System.getenv("GITHUB_TOKEN") ?: project.findProperty("gpr.key")
-        }
-    }
+//    maven {
+//        name = "GitHubPackages"
+//        url = uri("https://maven.pkg.github.com/CreepyX-Dev/CreepyBase")
+//        credentials {
+//            username = System.getenv("GITHUB_ACTOR") ?: project.findProperty("gpr.user")
+//            password = System.getenv("GITHUB_TOKEN") ?: project.findProperty("gpr.key")
+//        }
+//    }
     maven {
         url = 'https://jitpack.io'
     }
