@@ -1,14 +1,11 @@
 package com.creepyx.creepybase.util;
 
-import com.sun.jna.platform.win32.Sspi;
 import lombok.Getter;
-
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 public class TimeUtil {

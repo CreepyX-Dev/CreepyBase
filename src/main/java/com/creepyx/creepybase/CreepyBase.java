@@ -14,7 +14,6 @@ import java.util.List;
 public abstract class CreepyBase extends JavaPlugin {
 
 	private static CreepyBase instance;
-	private List<String> enabledDependencies;
 	private WorldGuard worldGuard;
 
 	protected String logPrefix = this.getName();
@@ -43,18 +42,6 @@ public abstract class CreepyBase extends JavaPlugin {
 			instance = this;
 			registerListeners();
 			registerCommands();
-			if (isPluginEnabled("WorldGuard")) {
-				worldGuard = WorldGuard.getInstance();
-			}
-			if (isPluginEnabled("PlaceholderAPI")) {
-				// PlaceholderAPI.registerPlaceholderHook(this, new MyPlaceholderHook());
-			}
-			if (isPluginEnabled("Vault")) {
-				// setupVault();
-			}
-			if (isPluginEnabled("WorldEdit")) {
-				// setupWorldEdit();
-			}
 			onPluginEnable();
 		} else {
 			throw new IllegalStateException("API already initialized!");

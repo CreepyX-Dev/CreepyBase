@@ -4,14 +4,15 @@ plugins {
     id 'io.papermc.paperweight.userdev' version '2.0.0-beta.8'
 }
 
+group = 'com.creepyx'
+version = project.findProperty("project-version")
+
 // Task to generate the sources JAR
 tasks.register('sourcesJar', Jar) {
     archiveClassifier.set('sources')
     from sourceSets.main.allSource
 }
 
-group = 'com.creepyx'
-version = '1.0.0'
 
 publishing {
     repositories {
