@@ -106,6 +106,12 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
+tasks.register('getVersion') {
+    doLast {
+        println ext.version
+    }
+}
+
 configurations.configureEach {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         if (details.requested.group == 'com.google.code.gson' && details.requested.name == 'gson') {
