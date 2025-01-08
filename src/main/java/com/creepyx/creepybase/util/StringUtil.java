@@ -60,7 +60,7 @@ public class StringUtil {
 		return asPrefixedComponent(text, new HashMap<>());
 	}
 	public Component asPrefixedComponent(@NotNull String text, Map<String, String> placeholders) {
-		return asComponent(CreepyBase.getInstance().getPrefix()).append(asComponent(text, placeholders));
+		return asComponent(CreepyBase.getInstance().getPrefix() != null ? CreepyBase.getInstance().getPrefix() : ("[" + CreepyBase.getInstance().getName() + "]")).append(asComponent(text, placeholders));
 	}
 
 	public List<Component> asFormattedList(@NotNull List<String> list) {

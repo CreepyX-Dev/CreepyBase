@@ -14,7 +14,7 @@ public class Log {
 			case ERROR -> "&c[ERROR] ";
 		};
 		ConsoleCommandSender consoleSender = CreepyBase.getInstance().getServer().getConsoleSender();
-		consoleSender.sendMessage(type + CreepyBase.getInstance().getLogPrefix() + message);
+		consoleSender.sendMessage(type + (CreepyBase.getInstance().getLogPrefix() != null ? CreepyBase.getInstance().getLogPrefix() : ("[" + CreepyBase.getInstance().getName() + "]"))+ message);
 	}
 
 	public enum LogType {

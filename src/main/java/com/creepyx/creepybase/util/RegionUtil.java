@@ -1,5 +1,6 @@
 package com.creepyx.creepybase.util;
 
+import com.creepyx.creepybase.CreepyBase;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector2;
 import com.sk89q.worldedit.math.BlockVector3;
@@ -11,7 +12,7 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-@UtilityClass
+@UtilityClass()
 public class RegionUtil {
 
 	public ProtectedRegion getRegion(String world, String regionName) {
@@ -62,6 +63,6 @@ public class RegionUtil {
 	}
 
 	private boolean worldGuardEnabled() {
-		return Bukkit.getPluginManager().isPluginEnabled("WorldGuard");
+		return CreepyBase.getInstance().isPluginEnabled("WorldGuard");
 	}
 }

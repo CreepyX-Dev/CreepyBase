@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'maven-publish'
-    id 'io.papermc.paperweight.userdev' version '2.0.0-beta.8'
+    id 'io.papermc.paperweight.userdev' version '2.0.0-beta.12'
     id 'com.gradleup.shadow' version '8.3.3'
 }
 
@@ -68,22 +68,18 @@ repositories {
         name = "meteor-maven"
         url = "https://maven.meteordev.org/releases"
     }
+    maven {
+        name = "worldedit-repo"
+        url = "https://mvn.intellectualsites.com/content/repositories/releases/"
+    }
 }
 
 dependencies {
     paperweight.paperDevBundle('1.21.4-R0.1-SNAPSHOT')
     implementation ("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.7.0")
-    compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
     compileOnly "org.jetbrains:annotations:25.0.0"
     compileOnly 'org.projectlombok:lombok:1.18.34'
-    // exclude guava from worldguard
-    compileOnly('com.sk89q.worldguard:worldguard-core:7.0.12') {
-        exclude group: 'com.google.guava', module: 'guava'
-    }
-    // exclude guava from worldguard
-    compileOnly('com.sk89q.worldguard:worldguard-bukkit:7.0.12') {
-        exclude group: 'com.google.guava', module: 'guava'
-    }
+    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.12'
     annotationProcessor "org.jetbrains:annotations:25.0.0"
     annotationProcessor "org.projectlombok:lombok:1.18.34"
 }
@@ -117,6 +113,10 @@ configurations.configureEach {
         if (details.requested.group == 'com.google.code.gson' && details.requested.name == 'gson') {
             // Force all dependencies to use Gson 2.11.0
             details.useVersion '2.11.0'
+        }
+        if (details.requested.group == 'com.google.guava' && details.requested.name == 'guava') {
+            // Force all dependencies to use Guava 30.1-jre
+            details.useVersion '30.1-jre'
         }
         if (details.requested.group == 'it.unimi.dsi' && details.requested.name == 'fastutil') {
             // Force the use of fastutil version 8.5.15
