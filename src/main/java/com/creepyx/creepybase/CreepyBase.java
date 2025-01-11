@@ -1,6 +1,7 @@
 package com.creepyx.creepybase;
 
 import lombok.Getter;
+import meteordevelopment.starscript.Starscript;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Bukkit;
@@ -21,6 +22,7 @@ public abstract class CreepyBase extends JavaPlugin implements Listener {
 	 */
 	private static CreepyBase instance;
 
+	private Starscript starscript;
 
 	/**
 	 * The {@code logPrefix} is used for logging messages to the console<br> and
@@ -49,6 +51,7 @@ public abstract class CreepyBase extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		getServer().getPluginManager().registerEvents(this, this);
+		starscript = new Starscript();
 		onPluginEnable();
 	}
 

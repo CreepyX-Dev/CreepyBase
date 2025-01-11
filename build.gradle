@@ -76,7 +76,8 @@ repositories {
 
 dependencies {
     paperweight.paperDevBundle('1.21.4-R0.1-SNAPSHOT')
-    implementation ("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.7.0")
+    compileOnly ("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.7.0")
+    compileOnly "meteordevelopment:starscript:0.2.2"
     compileOnly "org.jetbrains:annotations:25.0.0"
     compileOnly 'org.projectlombok:lombok:1.18.34'
     compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.12'
