@@ -43,7 +43,7 @@ public class StringUtil {
 		for (Map.Entry<String, String> entry : placeholders.entrySet()) {
 			String key = "{%}" + entry.getKey() + "%";
 			String value = entry.getValue();
-			component = (TextComponent) component.replaceText(TextReplacementConfig.builder()
+			component = component.replaceText(TextReplacementConfig.builder()
 					.matchLiteral(key)
 					.replacement(asComponent(value))
 					.build());
@@ -58,7 +58,7 @@ public class StringUtil {
 		for (Replacement replacement : placeholders) {
 			String key = "%" + replacement.original() + "%";
 			String value = replacement.replacement();
-			component = (TextComponent) component.replaceText(TextReplacementConfig.builder()
+			component = component.replaceText(TextReplacementConfig.builder()
 					.matchLiteral(key)
 					.replacement(asComponent(value))
 					.build());
