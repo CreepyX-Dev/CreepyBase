@@ -31,6 +31,11 @@ public class RegionUtil {
 		return manager.getRegion(regionName);
 	}
 
+	/**
+	 * @param world the world of the requested region
+	 * @param regionName the region name
+	 * @return true, if a region with the given world and name exists
+	 */
 	public boolean regionExists(String world, String regionName) {
 		if (!worldGuardEnabled()) {
 			return false;
@@ -38,30 +43,44 @@ public class RegionUtil {
 		return getRegion(world, regionName) != null;
 	}
 
+	/**
+	 * @param world the world of the Region
+	 * @param regionName the name of the Region
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @param z z coordinate
+	 * @return true, if the region contains the x, y and z coordinate
+	 */
 	public boolean insideRegion(String world, String regionName, double x, double y, double z) {
-		if (!worldGuardEnabled()) {
-			return false;
+		if (worldGuardEnabled() && regionExists(world, regionName)) {
+			ProtectedRegion region = getRegion(world, regionName);
+			return region.contains(BlockVector3.at(x, y, z));
 		}
-		ProtectedRegion region = getRegion(world, regionName);
-		if (region == null) {
-			return false;
-		}
-
-		return region.contains(BlockVector3.at(x, y, z));
+		return false;
 	}
 
+	/**
+	 * @param world the world of the Region
+	 * @param regionName the name of the Region
+	 * @param x x coordinate
+	 * @param z z coordinate
+	 * @return true, if the region contains the x and z coordinate
+	 */
 	public boolean insideRegion(String world, String regionName, double x, double z) {
 		if (!worldGuardEnabled()) {
 			return false;
 		}
 		ProtectedRegion region = getRegion(world, regionName);
-		if (region == null) {
+		if (!regionExists(world, regionName)) {
 			return false;
 		}
 
 		return region.contains(BlockVector2.at(x, z));
 	}
 
+	/**
+	 * @return true, if worldgaurd is enabled
+	 */
 	private boolean worldGuardEnabled() {
 		return CreepyBase.getInstance().isPluginEnabled("WorldGuard");
 	}

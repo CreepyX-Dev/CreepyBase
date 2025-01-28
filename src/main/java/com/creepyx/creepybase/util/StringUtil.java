@@ -7,23 +7,17 @@ import meteordevelopment.starscript.compiler.Compiler;
 import meteordevelopment.starscript.compiler.Parser;
 import meteordevelopment.starscript.utils.Error;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.*;
 
 @UtilityClass
 public class StringUtil {
 
-	@Deprecated(forRemoval = true)
-	@ApiStatus.ScheduledForRemoval(inVersion = "1.1.2")
 	public Component asComponent(String text) {
 		if (text == null) {
 			return Component.empty();
@@ -36,37 +30,7 @@ public class StringUtil {
 		return MiniMessage.builder().tags(TagResolver.builder().resolver(StandardTags.color()).resolver(StandardTags.clickEvent()).resolver(StandardTags.rainbow()).resolver(StandardTags.decorations()).resolver(StandardTags.font()).resolver(StandardTags.newline()).resolver(StandardTags.translatable()).resolver(StandardTags.keybind()).resolver(StandardTags.reset()).resolver(StandardTags.insertion()).resolver(StandardTags.hoverEvent()).resolver(StandardTags.score()).resolver(StandardTags.selector()).resolver(StandardTags.translatableFallback()).resolver(StandardTags.transition()).resolver(StandardTags.decorations(TextDecoration.ITALIC.withState(true).decoration())).build()).build().deserialize(text);
 	}
 
-	@Deprecated(forRemoval = true)
-	@ApiStatus.ScheduledForRemoval(inVersion = "1.1.2")
-	public Component asComponent(@NotNull String text, @NotNull Map<String, String> placeholders) {
-		Component component = asComponent(text);
-		for (Map.Entry<String, String> entry : placeholders.entrySet()) {
-			String key = "{%}" + entry.getKey() + "%";
-			String value = entry.getValue();
-			component = component.replaceText(TextReplacementConfig.builder()
-					.matchLiteral(key)
-					.replacement(asComponent(value))
-					.build());
-		}
-		return component;
-	}
-
-	@Deprecated(forRemoval = true)
-	@ApiStatus.ScheduledForRemoval(inVersion = "1.1.2")
 	public Component asComponent(@NotNull String text, Replacement... placeholders) {
-		Component component = asComponent(text);
-		for (Replacement replacement : placeholders) {
-			String key = "%" + replacement.original() + "%";
-			String value = replacement.replacement();
-			component = component.replaceText(TextReplacementConfig.builder()
-					.matchLiteral(key)
-					.replacement(asComponent(value))
-					.build());
-		}
-		return component;
-	}
-
-	public Component asModernComponent(@NotNull String text, Replacement... placeholders) {
 		Parser.Result result = Parser.parse(text);
 		Script script = getScript(result);
 
@@ -75,7 +39,7 @@ public class StringUtil {
 		return asComponent(CreepyBase.getInstance().getStarscript().run(script).toString());
 	}
 
-	public Component asModernComponent(@NotNull String text, Map<String, String> placeholders) {
+	public Component asComponent(@NotNull String text, Map<String, String> placeholders) {
 		Parser.Result result = Parser.parse(text);
 		Script script = getScript(result);
 
@@ -84,7 +48,7 @@ public class StringUtil {
 		return asComponent(CreepyBase.getInstance().getStarscript().run(script).toString());
 	}
 
-	public Component asModernPrefixedComponent(@NotNull String text, Replacement... placeholders) {
+	public Component asPrefixedComponent(@NotNull String text, Replacement... placeholders) {
 		Parser.Result result = Parser.parse(text);
 		Script script = getScript(result);
 
@@ -93,7 +57,7 @@ public class StringUtil {
 		return asPrefixedComponent(CreepyBase.getInstance().getStarscript().run(script).toString());
 	}
 
-	public Component asModernPrefixedComponent(@NotNull String text, Map<String, String> placeholders) {
+	public Component asPrefixedComponent(@NotNull String text, Map<String, String> placeholders) {
 		var result = Parser.parse(text);
 		var script = getScript(result);
 
@@ -102,22 +66,8 @@ public class StringUtil {
 		return asPrefixedComponent(CreepyBase.getInstance().getStarscript().run(script).toString());
 	}
 
-	@Deprecated(forRemoval = true)
-	@ApiStatus.ScheduledForRemoval(inVersion = "1.1.2")
 	public Component asPrefixedComponent(@NotNull String text) {
 		return asPrefixedComponent(text, new HashMap<>());
-	}
-
-	@Deprecated(forRemoval = true)
-	@ApiStatus.ScheduledForRemoval(inVersion = "1.1.2")
-	public Component asPrefixedComponent(@NotNull String text, Map<String, String> placeholders) {
-		return asComponent(CreepyBase.getInstance().getPrefix() != null ? CreepyBase.getInstance().getPrefix() : ("[" + CreepyBase.getInstance().getName() + "]")).append(asComponent(text, placeholders));
-	}
-
-	@Deprecated(forRemoval = true)
-	@ApiStatus.ScheduledForRemoval(inVersion = "1.1.2")
-	public Component asPrefixedComponent(@NotNull String text, Replacement... placeholders) {
-		return asComponent(CreepyBase.getInstance().getPrefix() != null ? CreepyBase.getInstance().getPrefix() : ("[" + CreepyBase.getInstance().getName() + "]")).append(asComponent(text, placeholders));
 	}
 
 	public List<Component> asFormattedList(@NotNull List<String> list) {
@@ -128,7 +78,7 @@ public class StringUtil {
 		List<Component> components = new ArrayList<>();
 
 		for (String line : list) {
-			components.add(asModernComponent(line, placeholders));
+			components.add(asComponent(line, placeholders));
 		}
 		return components;
 	}
@@ -137,7 +87,7 @@ public class StringUtil {
 		List<Component> components = new ArrayList<>();
 
 		for (String line : list) {
-			components.add(asModernComponent(line, placeholders));
+			components.add(asComponent(line, placeholders));
 		}
 		return components;
 	}
@@ -227,7 +177,7 @@ public class StringUtil {
 
 	private boolean starscriptReplace(Parser.Result result, Map<String, String> placeholders) {
 		if (result.hasErrors()) {
-			for (Error error : result.errors) Log.info(Log.LogType.ERROR, error.message);
+			for (Error error : result.errors) LogUtil.log(LogUtil.LogType.ERROR, error.message);
 			return true;
 		}
 
@@ -239,7 +189,7 @@ public class StringUtil {
 
 	private boolean starscriptReplace(Parser.Result result, Replacement... placeholders) {
 		if (result.hasErrors()) {
-			for (Error error : result.errors) Log.info(Log.LogType.ERROR, error.message);
+			for (Error error : result.errors) LogUtil.log(LogUtil.LogType.ERROR, error.message);
 			return true;
 		}
 
@@ -250,4 +200,54 @@ public class StringUtil {
 	}
 
 	public record Replacement(String original, String replacement) {}
+
+
+	/*
+	@Deprecated(forRemoval = true)
+	@ApiStatus.ScheduledForRemoval(inVersion = "1.1.2")
+	public Component asPrefixedComponent(@NotNull String text) {
+		return asPrefixedComponent(text, new HashMap<>());
+	}
+
+	@Deprecated(forRemoval = true)
+	@ApiStatus.ScheduledForRemoval(inVersion = "1.1.2")
+	public Component asPrefixedComponent(@NotNull String text, Map<String, String> placeholders) {
+		return asComponent(CreepyBase.getInstance().getPrefix() != null ? CreepyBase.getInstance().getPrefix() : ("[" + CreepyBase.getInstance().getName() + "]")).append(asComponent(text, placeholders));
+	}
+
+	@Deprecated(forRemoval = true)
+	@ApiStatus.ScheduledForRemoval(inVersion = "1.1.2")
+	public Component asPrefixedComponent(@NotNull String text, Replacement... placeholders) {
+		return asComponent(CreepyBase.getInstance().getPrefix() != null ? CreepyBase.getInstance().getPrefix() : ("[" + CreepyBase.getInstance().getName() + "]")).append(asComponent(text, placeholders));
+	}
+	@Deprecated(forRemoval = true)
+	@ApiStatus.ScheduledForRemoval(inVersion = "1.1.2")
+	public Component asComponent(@NotNull String text, @NotNull Map<String, String> placeholders) {
+		Component component = asComponent(text);
+		for (Map.Entry<String, String> entry : placeholders.entrySet()) {
+			String key = "{%}" + entry.getKey() + "%";
+			String value = entry.getValue();
+			component = component.replaceText(TextReplacementConfig.builder()
+					.matchLiteral(key)
+					.replacement(asComponent(value))
+					.build());
+		}
+		return component;
+	}
+
+	@Deprecated(forRemoval = true)
+	@ApiStatus.ScheduledForRemoval(inVersion = "1.1.2")
+	public Component asComponent(@NotNull String text, Replacement... placeholders) {
+		Component component = asComponent(text);
+		for (Replacement replacement : placeholders) {
+			String key = "%" + replacement.original() + "%";
+			String value = replacement.replacement();
+			component = component.replaceText(TextReplacementConfig.builder()
+					.matchLiteral(key)
+					.replacement(asComponent(value))
+					.build());
+		}
+		return component;
+	}
+*/
 }

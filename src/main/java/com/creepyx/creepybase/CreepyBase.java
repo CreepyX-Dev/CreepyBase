@@ -1,5 +1,6 @@
 package com.creepyx.creepybase;
 
+import com.creepyx.creepybase.util.LogUtil;
 import lombok.Getter;
 import meteordevelopment.starscript.Starscript;
 import org.bukkit.event.Listener;
@@ -52,7 +53,7 @@ public abstract class CreepyBase extends JavaPlugin implements Listener {
 	public void onEnable() {
 		getServer().getPluginManager().registerEvents(this, this);
 		starscript = new Starscript();
-		onPluginEnable();
+		onPluginStart();
 	}
 
 	/**
@@ -63,7 +64,7 @@ public abstract class CreepyBase extends JavaPlugin implements Listener {
 	 */
 	@Override
 	public void onDisable() {
-		onPluginDisable();
+		onPluginStop();
 	}
 
 	/**
@@ -72,7 +73,7 @@ public abstract class CreepyBase extends JavaPlugin implements Listener {
 	 * this method is automatically called, when the {@code onEnable()} method
 	 * is called
 	 */
-	protected abstract void onPluginEnable();
+	protected abstract void onPluginStart();
 
 	/**
 	 * can be used to execute code when the plugin is disabled
@@ -80,7 +81,7 @@ public abstract class CreepyBase extends JavaPlugin implements Listener {
 	 * this method is automatically called, when the {@code onDisable()} method
 	 * is called
 	 */
-	protected abstract void onPluginDisable();
+	protected abstract void onPluginStop();
 
 	/**
 	 * Returns the instance of {@link CreepyBase}.
@@ -97,7 +98,7 @@ public abstract class CreepyBase extends JavaPlugin implements Listener {
 
 			} catch (final IllegalStateException ex) {
 				if (Bukkit.getPluginManager().getPlugin("PlugMan") != null)
-					Bukkit.getLogger().severe("Failed to get instance of the plugin, if you reloaded using PlugMan you need to do a clean restart instead.");
+					LogUtil.log(LogUtil.LogType.ERROR,"Failed to get instance of the plugin, if you reloaded using PlugMan you need to do a clean restart instead.");
 
 				throw ex;
 			}

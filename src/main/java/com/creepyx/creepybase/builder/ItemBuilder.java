@@ -1,5 +1,6 @@
 package com.creepyx.creepybase.builder;
 
+import com.creepyx.creepybase.config.Config;
 import com.creepyx.creepybase.config.CustomConfig;
 import com.creepyx.creepybase.util.StringUtil;
 import com.destroystokyo.paper.profile.PlayerProfile;
@@ -35,6 +36,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder(String itemKey) {
+        config = new Config("items.yml");
         String name = config.getString(itemKey + ".name", itemKey);
         List<String> lore = config.getStringList(itemKey + ".lore");
         String materialString = config.getString(itemKey + ".material", "DIRT");
@@ -54,7 +56,9 @@ public class ItemBuilder {
         String materialString = config.getString(itemKey + ".material", "DIRT");
         Material material = Material.matchMaterial(materialString);
 
-        Preconditions.checkNotNull(material, "Invalid material " + materialString);
+        if (material == null) {
+            throw new IllegalArgumentException("Invalid material " + materialString);
+        }
 
         this.item = new ItemStack(material);
         this.meta = item.getItemMeta();
@@ -64,6 +68,11 @@ public class ItemBuilder {
 
     public ItemBuilder(Material material, int amount) {
         this.item = new ItemStack(material, amount);
+        this.meta = item.getItemMeta();
+    }
+
+    public ItemBuilder(ItemStack item) {
+        this.item = item;
         this.meta = item.getItemMeta();
     }
 

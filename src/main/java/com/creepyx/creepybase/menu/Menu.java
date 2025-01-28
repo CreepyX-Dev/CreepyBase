@@ -70,10 +70,22 @@ public abstract class Menu implements InventoryHolder {
     /**
      * Sets the filler item to empty slots in the inventory
      */
-    public void fillInventory() {
+    public void fill() {
         for (int i = 0; i < getSlots(); i++) {
-            if (inventory.getItem(i) != null) return;
+            if (inventory.getItem(i) != null) continue;
             inventory.setItem(i, fillerItem());
+        }
+    }
+
+    /**
+     * Sets the filler item to the top and bottom slots
+     */
+    public void fillTopAndBottom() {
+        for (int i = 0; i < getSlots(); i++) {
+            if (i < 9 || i <= getSlots() - 10) {
+                if (inventory.getItem(i) != null) continue;
+                inventory.setItem(i, fillerItem());
+            }
         }
     }
 }
