@@ -21,7 +21,7 @@ public class LogUtil {
 			if (!new Config("config.yml").getBoolean("debug"))
 				return;
 		}
-		Component finalMessage = StringUtil.asComponent(logType.prefix).append(StringUtil.asComponent(prefix).append(StringUtil.asComponent(message)));
+		Component finalMessage = StringUtil.asComponent(prefix).append(StringUtil.asComponent(logType.prefix).color(logType.color)).append(StringUtil.asComponent(message).color(logType.color));
 		consoleSender.sendMessage(finalMessage);
 	}
 
