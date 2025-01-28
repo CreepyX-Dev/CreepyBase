@@ -24,7 +24,7 @@ public class StringUtil {
 		}
 
 		if (text.contains("&") || text.contains("§")) {
-			return LegacyComponentSerializer.legacyAmpersand().deserialize("§f" + text);
+			return LegacyComponentSerializer.legacyAmpersand().deserialize(text);
 		}
 
 		return MiniMessage.builder().tags(TagResolver.builder().resolver(StandardTags.color()).resolver(StandardTags.clickEvent()).resolver(StandardTags.rainbow()).resolver(StandardTags.decorations()).resolver(StandardTags.font()).resolver(StandardTags.newline()).resolver(StandardTags.translatable()).resolver(StandardTags.keybind()).resolver(StandardTags.reset()).resolver(StandardTags.insertion()).resolver(StandardTags.hoverEvent()).resolver(StandardTags.score()).resolver(StandardTags.selector()).resolver(StandardTags.translatableFallback()).resolver(StandardTags.transition()).resolver(StandardTags.decorations(TextDecoration.ITALIC.withState(true).decoration())).build()).build().deserialize(text);
