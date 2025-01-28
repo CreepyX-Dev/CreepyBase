@@ -21,24 +21,12 @@ public class LogUtil {
 			if (!new Config("config.yml").getBoolean("debug"))
 				return;
 		}
-		Component finalMessage = StringUtil.asComponent(logType.prefix).append(Component.text(prefix).append(StringUtil.asComponent(message)));
+		Component finalMessage = StringUtil.asComponent(logType.prefix).append(StringUtil.asComponent(prefix).append(StringUtil.asComponent(message)));
 		consoleSender.sendMessage(finalMessage);
-	}
-
-	public enum LogType {
-		INFO("&r[INFO] "),
-		WARNING("&6[WARNING] "),
-		ERROR("&c[ERROR] "),
-		DEBUG("&e[DEBUG] ");
-
-		final String prefix;
-
-		LogType(String prefix) {
-			this.prefix = prefix;
-		}
 	}
 
 	private String getPrefix() {
 		return CreepyBase.getInstance().getLogPrefix() != null ? CreepyBase.getInstance().getLogPrefix() : ("[" + CreepyBase.getInstance().getName() + "]");
 	}
 }
+

@@ -177,7 +177,7 @@ public class StringUtil {
 
 	private boolean starscriptReplace(Parser.Result result, Map<String, String> placeholders) {
 		if (result.hasErrors()) {
-			for (Error error : result.errors) LogUtil.log(LogUtil.LogType.ERROR, error.message);
+			for (Error error : result.errors) LogUtil.log(LogType.ERROR, error.message);
 			return true;
 		}
 
@@ -189,7 +189,7 @@ public class StringUtil {
 
 	private boolean starscriptReplace(Parser.Result result, Replacement... placeholders) {
 		if (result.hasErrors()) {
-			for (Error error : result.errors) LogUtil.log(LogUtil.LogType.ERROR, error.message);
+			for (Error error : result.errors) LogUtil.log(LogType.ERROR, error.message);
 			return true;
 		}
 

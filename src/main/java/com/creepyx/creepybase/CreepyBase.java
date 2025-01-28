@@ -1,5 +1,6 @@
 package com.creepyx.creepybase;
 
+import com.creepyx.creepybase.util.LogType;
 import com.creepyx.creepybase.util.LogUtil;
 import lombok.Getter;
 import meteordevelopment.starscript.Starscript;
@@ -98,7 +99,7 @@ public abstract class CreepyBase extends JavaPlugin implements Listener {
 
 			} catch (final IllegalStateException ex) {
 				if (Bukkit.getPluginManager().getPlugin("PlugMan") != null)
-					LogUtil.log(LogUtil.LogType.ERROR,"Failed to get instance of the plugin, if you reloaded using PlugMan you need to do a clean restart instead.");
+					LogUtil.log(LogType.ERROR,"Failed to get instance of the plugin, if you reloaded using PlugMan you need to do a clean restart instead.");
 
 				throw ex;
 			}
