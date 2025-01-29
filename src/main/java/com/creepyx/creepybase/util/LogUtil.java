@@ -29,4 +29,3 @@ public class LogUtil {
 		return CreepyBase.getInstance().getLogPrefix() != null ? CreepyBase.getInstance().getLogPrefix() : ("[" + CreepyBase.getInstance().getName() + "]");
 	}
 }
-
