@@ -40,7 +40,7 @@ public class StringUtil {
 
 	public Component asComponent(@NotNull String text, @NotNull Map<String, String> placeholders) {
 		for (Map.Entry<String, String> entry : placeholders.entrySet()) {
-			String key = "{%}" + entry.getKey() + "%";
+			String key = "%" + entry.getKey() + "%";
 			String value = entry.getValue();
 			text = text.replace(key, value);
 		}
