@@ -25,7 +25,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - run: ./gradlew shadowJar && ./gradlew javadoc && mkdir staging && tar -cvf javadoc.zip build/docs/ && mv javadoc.zip staging/ && cp build/libs/*.jar staging/
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: Package
           path: staging
