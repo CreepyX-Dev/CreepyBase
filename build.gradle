@@ -65,10 +65,6 @@ repositories {
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
     maven {
-        name = "meteor-maven"
-        url = "https://maven.meteordev.org/releases"
-    }
-    maven {
         name = "worldedit-repo"
         url = "https://mvn.intellectualsites.com/content/repositories/releases/"
     }
@@ -77,7 +73,6 @@ repositories {
 dependencies {
     paperweight.paperDevBundle('1.21.4-R0.1-SNAPSHOT')
     compileOnly ("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.7.0")
-    compileOnly "meteordevelopment:starscript:0.2.2"
     compileOnly "org.jetbrains:annotations:25.0.0"
     compileOnly 'org.projectlombok:lombok:1.18.34'
     compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.12'
@@ -100,12 +95,6 @@ tasks.withType(JavaCompile).configureEach {
 
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
         options.release.set(targetJavaVersion)
-    }
-}
-
-tasks.register('getVersion') {
-    doLast {
-        println ext.version
     }
 }
 
