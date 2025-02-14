@@ -17,19 +17,31 @@ public class MessageUtil {
     private CustomConfig config;
 
     public Component get(String messageKey) {
-        return StringUtil.asComponent(config.getString("Messages." + messageKey));
+        String message = config.getString("messages." + messageKey);
+        if (message == null || message.isBlank()) {
+            return StringUtil.asComponent("key " + messageKey + " not found");
+        }
+        return StringUtil.asComponent(message);
     }
 
     public Component get(String messageKey, Map<String, String> placeholders) {
-        return StringUtil.asComponent(Objects.requireNonNull(config.getString("Messages." + messageKey)), placeholders);
+        String message = config.getString("messages." + messageKey);
+        if (message == null || message.isBlank()) {
+            return StringUtil.asComponent("key " + messageKey + " not found");
+        }
+        return StringUtil.asComponent(message, placeholders);
     }
 
     public Component getPrefixed(String messageKey) {
-        return StringUtil.asPrefixedComponent(Objects.requireNonNull(config.getString("Messages." + messageKey)), new HashMap<>());
+        String message = config.getString("messages." + messageKey);
+        if (message == null || message.isBlank()) {
+            return StringUtil.asPrefixedComponent("key " + messageKey + " not found");
+        }
+        return StringUtil.asPrefixedComponent(message, new HashMap<>());
     }
 
     public Component getPrefixed(String messageKey, String defaultMessage) {
-        String message = config.getString("Messages." + messageKey);
+        String message = config.getString("messages." + messageKey);
 
         if (message == null || message.isBlank()) {
             return StringUtil.asPrefixedComponent(defaultMessage);
@@ -39,21 +51,21 @@ public class MessageUtil {
     }
 
     public Component getPrefixed(String messageKey, String defaultMessage, Map<String, String> placeholders) {
-        String message = config.getString("Messages." + messageKey);
+        String message = config.getString("messages." + messageKey);
 
         if (message == null || message.isBlank()) {
             return StringUtil.asPrefixedComponent(defaultMessage, placeholders);
         }
 
-        return StringUtil.asPrefixedComponent(message, new HashMap<>());
+        return StringUtil.asPrefixedComponent(message, placeholders);
     }
 
     public Component getPrefixed(String messageKey, Map<String, String> placeholders) {
-        return StringUtil.asPrefixedComponent(Objects.requireNonNull(config.getString("Messages." + messageKey)), placeholders);
+        return StringUtil.asPrefixedComponent(Objects.requireNonNull(config.getString("messages." + messageKey)), placeholders);
     }
 
     public Component getOrDefault(String messageKey, String defaultMessage) {
-        String message = config.getString("Messages." + messageKey);
+        String message = config.getString("messages." + messageKey);
 
         if (message == null || message.isBlank()) {
             return StringUtil.asComponent(defaultMessage);
@@ -63,7 +75,7 @@ public class MessageUtil {
     }
 
     public Component getOrDefault(String messageKey, String defaultMessage, Map<String, String> placeholders) {
-        String message = config.getString("Messages." + messageKey);
+        String message = config.getString("messages." + messageKey);
 
         if (message == null || message.isBlank()) {
             return StringUtil.asComponent(defaultMessage, placeholders);
@@ -73,18 +85,18 @@ public class MessageUtil {
     }
 
     public List<Component> getList(String messageKey) {
-        return StringUtil.asFormattedList(config.getStringList("Messages." + messageKey));
+        return StringUtil.asFormattedList(config.getStringList("messages." + messageKey));
     }
 
     public List<Component> getList(String messageKey, Map<String, String> placeholders) {
-        return StringUtil.asFormattedList(config.getStringList("Messages." + messageKey), placeholders);
+        return StringUtil.asFormattedList(config.getStringList("messages." + messageKey), placeholders);
     }
 
     public String getLegacy(String messageKey) {
-        return config.getString("Messages." + messageKey);
+        return config.getString("messages." + messageKey);
     }
 
     public List<String> getLegacyList(String messageKey) {
-        return config.getStringList("Messages." + messageKey);
+        return config.getStringList("messages." + messageKey);
     }
 }
