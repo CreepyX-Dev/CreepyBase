@@ -118,7 +118,7 @@ public class Config extends CustomConfig {
     @Override
     public void set(@NotNull String path, @Nullable Object value) {
         if (value instanceof Location location) {
-            this.set(path + ".World", location.getWorld());
+            this.set(path + ".World", location.getWorld().getName());
             this.set(path + ".X", location.getX());
             this.set(path + ".Y", location.getY());
             this.set(path + ".Z", location.getZ());

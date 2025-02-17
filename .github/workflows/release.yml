@@ -33,8 +33,8 @@ jobs:
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
-          automatic_release_tag: "1.2.7"
-          title: "1.2.7"
+          automatic_release_tag: "1.2.8"
+          title: "1.2.8"
           prerelease: false
           files: |
             staging/*.jar
