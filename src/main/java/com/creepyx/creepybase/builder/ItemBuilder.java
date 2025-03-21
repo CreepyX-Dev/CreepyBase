@@ -87,11 +87,11 @@ public class ItemBuilder {
     }
 
     public ItemBuilder lore(String... lore) {
-        return getItemBuilder(lore);
+        return getItemLore(lore);
     }
 
     @NotNull
-    private ItemBuilder getItemBuilder(String[] lore) {
+    private ItemBuilder getItemLore(String[] lore) {
         List<Component> loreList = new ArrayList<>();
         for (String string : lore) {
             StringUtil.asComponent(string);
@@ -102,7 +102,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder lore(List<String> lore) {
-        return getItemBuilder(lore.toArray(new String[0]));
+        return getItemLore(lore.toArray(new String[0]));
     }
 
     public ItemBuilder lore(Component... lore) {
@@ -130,8 +130,8 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder unbreakable() {
-        this.meta.setUnbreakable(!this.meta.isUnbreakable());
+    public ItemBuilder unbreakable(boolean unbreakable) {
+        this.meta.setUnbreakable(unbreakable);
         return this;
     }
 
@@ -173,14 +173,17 @@ public class ItemBuilder {
     }
 
     public ItemBuilder glow(boolean glow) {
-
-        this.meta.addEnchant(Enchantment.RIPTIDE, 1, true);
-        this.meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        this.meta.setEnchantmentGlintOverride(glow);
         return this;
     }
 
     public ItemBuilder enchant(Enchantment enchantment, int level) {
         this.meta.addEnchant(enchantment, level, true);
+        return this;
+    }
+
+    public ItemBuilder enchants(Map<Enchantment, Integer> enchantments) {
+        enchantments.forEach(this::enchant);
         return this;
     }
 

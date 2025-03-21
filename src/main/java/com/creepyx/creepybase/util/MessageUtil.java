@@ -13,90 +13,90 @@ import java.util.Objects;
 @UtilityClass
 public class MessageUtil {
 
-    @Setter
-    private CustomConfig config;
+	@Setter
+	private CustomConfig config;
 
-    public Component get(String messageKey) {
-        String message = config.getString("messages." + messageKey);
-        if (message == null || message.isBlank()) {
-            return StringUtil.asComponent("key " + messageKey + " not found");
-        }
-        return StringUtil.asComponent(message);
-    }
+	public Component get(String messageKey) {
+		String message = config.getString("messages." + messageKey);
+		if (message == null || message.isBlank()) {
+			return StringUtil.asComponent("key " + messageKey + " not found");
+		}
+		return StringUtil.asComponent(message);
+	}
 
-    public Component get(String messageKey, Map<String, String> placeholders) {
-        String message = config.getString("messages." + messageKey);
-        if (message == null || message.isBlank()) {
-            return StringUtil.asComponent("key " + messageKey + " not found");
-        }
-        return StringUtil.asComponent(message, placeholders);
-    }
+	public Component get(String messageKey, Map<String, String> placeholders) {
+		String message = config.getString("messages." + messageKey);
+		if (message == null || message.isBlank()) {
+			return StringUtil.asComponent("key " + messageKey + " not found");
+		}
+		return StringUtil.asComponent(message, placeholders);
+	}
 
-    public Component getPrefixed(String messageKey) {
-        String message = config.getString("messages." + messageKey);
-        if (message == null || message.isBlank()) {
-            return StringUtil.asPrefixedComponent("key " + messageKey + " not found");
-        }
-        return StringUtil.asPrefixedComponent(message, new HashMap<>());
-    }
+	public Component getPrefixed(String messageKey) {
+		String message = config.getString("messages." + messageKey);
+		if (message == null || message.isBlank()) {
+			return StringUtil.asPrefixedComponent("key " + messageKey + " not found");
+		}
+		return StringUtil.asPrefixedComponent(message, new HashMap<>());
+	}
 
-    public Component getPrefixed(String messageKey, String defaultMessage) {
-        String message = config.getString("messages." + messageKey);
+	public Component getPrefixed(String messageKey, String defaultMessage) {
+		String message = config.getString("messages." + messageKey);
 
-        if (message == null || message.isBlank()) {
-            return StringUtil.asPrefixedComponent(defaultMessage);
-        }
+		if (message == null || message.isBlank()) {
+			return StringUtil.asPrefixedComponent(defaultMessage);
+		}
 
-        return StringUtil.asPrefixedComponent(message, new HashMap<>());
-    }
+		return StringUtil.asPrefixedComponent(message, new HashMap<>());
+	}
 
-    public Component getPrefixed(String messageKey, String defaultMessage, Map<String, String> placeholders) {
-        String message = config.getString("messages." + messageKey);
+	public Component getPrefixed(String messageKey, String defaultMessage, Map<String, String> placeholders) {
+		String message = config.getString("messages." + messageKey);
 
-        if (message == null || message.isBlank()) {
-            return StringUtil.asPrefixedComponent(defaultMessage, placeholders);
-        }
+		if (message == null || message.isBlank()) {
+			return StringUtil.asPrefixedComponent(defaultMessage, placeholders);
+		}
 
-        return StringUtil.asPrefixedComponent(message, placeholders);
-    }
+		return StringUtil.asPrefixedComponent(message, placeholders);
+	}
 
-    public Component getPrefixed(String messageKey, Map<String, String> placeholders) {
-        return StringUtil.asPrefixedComponent(Objects.requireNonNull(config.getString("messages." + messageKey)), placeholders);
-    }
+	public Component getPrefixed(String messageKey, Map<String, String> placeholders) {
+		return StringUtil.asPrefixedComponent(Objects.requireNonNull(config.getString("messages." + messageKey)), placeholders);
+	}
 
-    public Component getOrDefault(String messageKey, String defaultMessage) {
-        String message = config.getString("messages." + messageKey);
+	public Component getOrDefault(String messageKey, String defaultMessage) {
+		String message = config.getString("messages." + messageKey);
 
-        if (message == null || message.isBlank()) {
-            return StringUtil.asComponent(defaultMessage);
-        }
+		if (message == null || message.isBlank()) {
+			return StringUtil.asComponent(defaultMessage);
+		}
 
-        return StringUtil.asComponent(message);
-    }
+		return StringUtil.asComponent(message);
+	}
 
-    public Component getOrDefault(String messageKey, String defaultMessage, Map<String, String> placeholders) {
-        String message = config.getString("messages." + messageKey);
+	public Component getOrDefault(String messageKey, String defaultMessage, Map<String, String> placeholders) {
+		String message = config.getString("messages." + messageKey);
 
-        if (message == null || message.isBlank()) {
-            return StringUtil.asComponent(defaultMessage, placeholders);
-        }
+		if (message == null || message.isBlank()) {
+			return StringUtil.asComponent(defaultMessage, placeholders);
+		}
 
-        return StringUtil.asComponent(message, placeholders);
-    }
+		return StringUtil.asComponent(message, placeholders);
+	}
 
-    public List<Component> getList(String messageKey) {
-        return StringUtil.asFormattedList(config.getStringList("messages." + messageKey));
-    }
+	public List<Component> getList(String messageKey) {
+		return StringUtil.asFormattedList(config.getStringList("messages." + messageKey));
+	}
 
-    public List<Component> getList(String messageKey, Map<String, String> placeholders) {
-        return StringUtil.asFormattedList(config.getStringList("messages." + messageKey), placeholders);
-    }
+	public List<Component> getList(String messageKey, Map<String, String> placeholders) {
+		return StringUtil.asFormattedList(config.getStringList("messages." + messageKey), placeholders);
+	}
 
-    public String getLegacy(String messageKey) {
-        return config.getString("messages." + messageKey);
-    }
+	public String getLegacy(String messageKey) {
+		return config.getString("messages." + messageKey);
+	}
 
-    public List<String> getLegacyList(String messageKey) {
-        return config.getStringList("messages." + messageKey);
-    }
+	public List<String> getLegacyList(String messageKey) {
+		return config.getStringList("messages." + messageKey);
+	}
 }
