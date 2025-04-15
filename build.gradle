@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.creepyx'
-version = "1.3.0"
+version = project.findProperty("project-version")
 
 // Task to generate the sources JAR
 tasks.register('sourcesJar', Jar) {
