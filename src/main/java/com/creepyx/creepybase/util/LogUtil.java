@@ -2,16 +2,14 @@ package com.creepyx.creepybase.util;
 
 import com.creepyx.creepybase.CreepyBase;
 import com.creepyx.creepybase.config.Config;
-import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.ConsoleCommandSender;
 
-@UtilityClass
 public class LogUtil {
 
 	private static String prefix;
 
-	public void log(LogType logType, String message) {
+	public static void log(LogType logType, String message) {
 
 		ConsoleCommandSender consoleSender = CreepyBase.getInstance().getServer().getConsoleSender();
 		if (prefix == null) {
@@ -25,7 +23,7 @@ public class LogUtil {
 		consoleSender.sendMessage(finalMessage);
 	}
 
-	private String getPrefix() {
+	private static String getPrefix() {
 		return CreepyBase.getInstance().getLogPrefix() != null ? CreepyBase.getInstance().getLogPrefix() : ("[" + CreepyBase.getInstance().getName() + "]");
 	}
 }

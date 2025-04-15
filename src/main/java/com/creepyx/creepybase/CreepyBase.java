@@ -40,7 +40,7 @@ public abstract class CreepyBase extends JavaPlugin implements Listener {
 	 * <br>
 	 * {@code supports only MiniMessage}
 	 */
-	protected String prefix;
+	public String prefix;
 
 	/**
 	 * this method is called when the plugin is enabled<br>
