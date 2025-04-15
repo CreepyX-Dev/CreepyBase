@@ -1,11 +1,13 @@
 package com.creepyx.creepybase.builder;
 
+import com.creepyx.creepybase.CreepyBase;
 import com.creepyx.creepybase.config.Config;
 import com.creepyx.creepybase.config.CustomConfig;
 import com.creepyx.creepybase.util.StringUtil;
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
 import com.google.common.base.Preconditions;
+import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -13,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -28,15 +31,16 @@ public class ItemBuilder {
     @Setter
     private static CustomConfig config;
     private final ItemStack item;
-    private final ItemMeta meta;
+    @Getter
+	private final ItemMeta meta;
 
     public ItemBuilder(Material material) {
         this.item = new ItemStack(material);
         this.meta = item.getItemMeta();
     }
 
-    public ItemBuilder(String itemKey) {
-        config = new Config("items.yml");
+    public ItemBuilder(String itemKey, String configName) {
+        config = new Config(configName.endsWith(".yml") ? configName : configName + ".yml" );
         String name = config.getString(itemKey + ".name", itemKey);
         List<String> lore = config.getStringList(itemKey + ".lore");
         String materialString = config.getString(itemKey + ".material", "DIRT");
@@ -46,6 +50,14 @@ public class ItemBuilder {
 
         this.item = new ItemStack(material);
         this.meta = item.getItemMeta();
+
+        if (config.isConfigurationSection(itemKey + ".persistent_data")) {
+            ConfigurationSection persistentData = config.getConfigurationSection(itemKey + ".persistent_data");
+            for (String key : persistentData.getKeys(false)) {
+                String value = persistentData.getString(key, "null");
+                this.addPersistentString(new NamespacedKey(CreepyBase.getInstance(), key), value);
+            }
+        }
         this.name(name);
         this.lore(lore);
     }
@@ -240,7 +252,7 @@ public class ItemBuilder {
         return headValue(base64);
     }
 
-    private String convertURLToBase64(String url) {
+	private String convertURLToBase64(String url) {
         String json = "{\"textures\":{\"SKIN\":{\"url\":\"" + url + "\"}}}";
         return java.util.Base64.getEncoder().encodeToString(json.getBytes());
     }

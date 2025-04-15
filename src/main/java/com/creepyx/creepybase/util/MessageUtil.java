@@ -1,6 +1,7 @@
 package com.creepyx.creepybase.util;
 
 import com.creepyx.creepybase.config.CustomConfig;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
@@ -14,6 +15,7 @@ import java.util.Objects;
 public class MessageUtil {
 
 	@Setter
+	@Getter
 	private CustomConfig config;
 
 	public Component get(String messageKey) {
