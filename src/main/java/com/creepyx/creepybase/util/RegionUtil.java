@@ -8,14 +8,12 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
-import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-@UtilityClass()
 public class RegionUtil {
 
-	public ProtectedRegion getRegion(String world, String regionName) {
+	public static ProtectedRegion getRegion(String world, String regionName) {
 		if (!worldGuardEnabled()) {
 			return null;
 		}
@@ -36,7 +34,7 @@ public class RegionUtil {
 	 * @param regionName the region name
 	 * @return true, if a region with the given world and name exists
 	 */
-	public boolean regionExists(String world, String regionName) {
+	public static boolean regionExists(String world, String regionName) {
 		if (!worldGuardEnabled()) {
 			return false;
 		}
@@ -51,7 +49,7 @@ public class RegionUtil {
 	 * @param z z coordinate
 	 * @return true, if the region contains the x, y and z coordinate
 	 */
-	public boolean insideRegion(String world, String regionName, double x, double y, double z) {
+	public static boolean insideRegion(String world, String regionName, double x, double y, double z) {
 		if (worldGuardEnabled() && regionExists(world, regionName)) {
 			ProtectedRegion region = getRegion(world, regionName);
 			return region.contains(BlockVector3.at(x, y, z));
@@ -66,7 +64,7 @@ public class RegionUtil {
 	 * @param z z coordinate
 	 * @return true, if the region contains the x and z coordinate
 	 */
-	public boolean insideRegion(String world, String regionName, double x, double z) {
+	public static boolean insideRegion(String world, String regionName, double x, double z) {
 		if (!worldGuardEnabled()) {
 			return false;
 		}
@@ -81,7 +79,7 @@ public class RegionUtil {
 	/**
 	 * @return true, if worldgaurd is enabled
 	 */
-	private boolean worldGuardEnabled() {
+	private static boolean worldGuardEnabled() {
 		return CreepyBase.getInstance().isPluginEnabled("WorldGuard");
 	}
 }

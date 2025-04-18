@@ -23,7 +23,9 @@ jobs:
       # Add this step to give execute permissions to gradlew
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
-
+      - name: Get version from gradle.properties
+        id: get_version
+        run: echo ::set-output name=VERSION::$(grep "version=" gradle.properties | cut -d '=' -f 2)
       - run: ./gradlew shadowJar && ./gradlew javadoc && mkdir staging && tar -cvf javadoc.zip build/docs/ && mv javadoc.zip staging/ && cp build/libs/*.jar staging/
       - uses: actions/upload-artifact@v4
         with:
@@ -33,8 +35,9 @@ jobs:
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
-          automatic_release_tag: "1.3.0"
-          title: "1.3.0"
+          automatic_release_tag: ${{ steps.get_version.outputs.VERSION }}
+          title: ${{ steps.get_version.outputs.VERSION }}
+
           prerelease: false
           files: |
             staging/*.jar

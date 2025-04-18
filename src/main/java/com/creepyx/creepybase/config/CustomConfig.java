@@ -1,19 +1,19 @@
 package com.creepyx.creepybase.config;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.InputStream;
 
 public abstract class CustomConfig extends YamlConfiguration {
 
-	public abstract CustomConfig createOrLoadDefault(File file, InputStream resource);
-	public abstract CustomConfig createOrLoadDefault(String file, InputStream resource);
+	public abstract CustomConfig get(File file);
 
-	public abstract CustomConfig getOrCreate(File file);
-	public abstract CustomConfig getOrCreate(File directory, File file);
-	public abstract CustomConfig getOrCreate(String file);
-	public abstract CustomConfig getOrCreate(String folder, String file);
+	public abstract CustomConfig get(File directory, File file);
+
+	public abstract CustomConfig get(@NotNull String file);
+
+	public abstract CustomConfig get(String folder, String file);
 
 	/**
 	 * Save a Custom Config in a yaml Format

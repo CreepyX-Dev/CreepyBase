@@ -1,9 +1,9 @@
 plugins {
     id 'java'
     id 'maven-publish'
-    id 'io.papermc.paperweight.userdev' version '2.0.0-beta.16'
-    id 'com.gradleup.shadow' version '8.3.3'
-    id 'org.jetbrains.kotlin.jvm' version '1.9.22'
+    id ("io.papermc.paperweight.userdev") version "2.0.0-beta.16"
+    id ("com.gradleup.shadow") version "8.3.3"
+    id("org.jetbrains.kotlin.jvm") version "2.2.0-Beta1"
 }
 
 group = 'com.creepyx'
@@ -15,41 +15,8 @@ tasks.register('sourcesJar', Jar) {
     from sourceSets.main.allSource
 }
 
-//
-//publishing {
-//    repositories {
-//        maven {
-//            name = "GitHubPackages"
-//            url = uri("https://maven.pkg.github.com/CreepyX-Dev/CreepyBase")
-//            credentials () {
-////                name = "Authorization"
-////                value = "Bearer ${project.findProperty('gpr.token') ?: System.getenv('TOKEN')}"
-//                username = System.getenv("GITHUB_ACTOR") ?: project.findProperty("gpr.user")
-//                password = System.getenv("GITHUB_TOKEN") ?: project.findProperty("gpr.key")
-//            }
-////            authentication {
-////                header(HttpHeaderAuthentication)
-////            }
-//        }
-//    }
-//    publications {
-//        mavenJava(MavenPublication) {
-//            from components.java
-////            artifact tasks.named('sourcesJar')
-//        }
-//    }
-//}
-
 repositories {
     mavenCentral()
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/CreepyX-Dev/CreepyBase")
-//        credentials {
-//            username = System.getenv("GITHUB_ACTOR") ?: project.findProperty("gpr.user")
-//            password = System.getenv("GITHUB_TOKEN") ?: project.findProperty("gpr.key")
-//        }
-//    }
     maven {
         url = 'https://jitpack.io'
     }
@@ -72,13 +39,11 @@ repositories {
 }
 
 dependencies {
-    paperweight.paperDevBundle('1.21.4-R0.1-SNAPSHOT')
+    paperweight.paperDevBundle('1.21.5-R0.1-SNAPSHOT')
     compileOnly ("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.7.0")
     compileOnly "org.jetbrains:annotations:25.0.0"
-    compileOnly 'org.projectlombok:lombok:1.18.34'
     compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.13'
     annotationProcessor "org.jetbrains:annotations:25.0.0"
-    annotationProcessor "org.projectlombok:lombok:1.18.34"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 

@@ -28,6 +28,26 @@ public class MessageUtil {
 		return StringUtil.asComponent(message);
 	}
 
+	public static Component get(String messageKey, String defaultMessage) {
+		String message = config.getString("messages." + messageKey);
+
+		if (message == null || message.isBlank()) {
+			return StringUtil.asComponent(defaultMessage);
+		}
+
+		return StringUtil.asComponent(message);
+	}
+
+	public static Component get(String messageKey, String defaultMessage, Map<String, String> placeholders) {
+		String message = config.getString("messages." + messageKey);
+
+		if (message == null || message.isBlank()) {
+			return StringUtil.asComponent(defaultMessage, placeholders);
+		}
+
+		return StringUtil.asComponent(message, placeholders);
+	}
+
 	public static Component get(String messageKey, Map<String, String> placeholders) {
 		String message = config.getString("messages." + messageKey);
 		if (message == null || message.isBlank()) {
@@ -66,26 +86,6 @@ public class MessageUtil {
 
 	public static Component getPrefixed(String messageKey, Map<String, String> placeholders) {
 		return StringUtil.asPrefixedComponent(Objects.requireNonNull(config.getString("messages." + messageKey)), placeholders);
-	}
-
-	public static Component getOrDefault(String messageKey, String defaultMessage) {
-		String message = config.getString("messages." + messageKey);
-
-		if (message == null || message.isBlank()) {
-			return StringUtil.asComponent(defaultMessage);
-		}
-
-		return StringUtil.asComponent(message);
-	}
-
-	public static Component getOrDefault(String messageKey, String defaultMessage, Map<String, String> placeholders) {
-		String message = config.getString("messages." + messageKey);
-
-		if (message == null || message.isBlank()) {
-			return StringUtil.asComponent(defaultMessage, placeholders);
-		}
-
-		return StringUtil.asComponent(message, placeholders);
 	}
 
 	public static List<Component> getList(String messageKey) {

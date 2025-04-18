@@ -1,14 +1,11 @@
 package com.creepyx.creepybase.serializer;
 
-import lombok.experimental.UtilityClass;
-
 import java.io.*;
 import java.util.Base64;
 
-@UtilityClass
 public class Base64Serializer {
 
-	public <T> String serialize(T obj) {
+	public static <T> String serialize(T obj) {
 		try {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			ObjectOutputStream dataOutput = new ObjectOutputStream(outputStream);
@@ -22,7 +19,7 @@ public class Base64Serializer {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T deserialize(String base64) {
+	public static <T> T deserialize(String base64) {
 		if (base64 == null || base64.isEmpty()) {
 			return null;
 		}

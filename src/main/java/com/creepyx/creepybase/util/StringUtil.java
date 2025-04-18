@@ -1,7 +1,6 @@
 package com.creepyx.creepybase.util;
 
 import com.creepyx.creepybase.CreepyBase;
-import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -11,10 +10,9 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
-@UtilityClass
 public class StringUtil {
 
-	public Component asComponent(String text) {
+	public static Component asComponent(String text) {
 		if (text == null) {
 			return Component.empty();
 		}
@@ -43,19 +41,19 @@ public class StringUtil {
 				.build()).build().deserialize(text);
 	}
 
-	public Component asPrefixedComponent(@NotNull String text) {
+	public static Component asPrefixedComponent(@NotNull String text) {
 		return asPrefixedComponent(text, new HashMap<>());
 	}
 
-	public Component asPrefixedComponent(@NotNull String text, Map<String, String> placeholders) {
+	public static Component asPrefixedComponent(@NotNull String text, Map<String, String> placeholders) {
 		return asComponent(CreepyBase.getInstance().getPrefix() != null ? CreepyBase.getInstance().getPrefix() : ("[" + CreepyBase.getInstance().getName() + "]")).append(asComponent(text, placeholders));
 	}
 
-	public Component asPrefixedComponent(@NotNull String text, Replacement... placeholders) {
+	public static Component asPrefixedComponent(@NotNull String text, Replacement... placeholders) {
 		return asComponent(CreepyBase.getInstance().getPrefix() != null ? CreepyBase.getInstance().getPrefix() : ("[" + CreepyBase.getInstance().getName() + "]")).append(asComponent(text, placeholders));
 	}
 
-	public Component asComponent(@NotNull String text, @NotNull Map<String, String> placeholders) {
+	public static Component asComponent(@NotNull String text, @NotNull Map<String, String> placeholders) {
 		for (Map.Entry<String, String> entry : placeholders.entrySet()) {
 			String key = "%" + entry.getKey() + "%";
 			String value = entry.getValue();
@@ -64,7 +62,7 @@ public class StringUtil {
 		return asComponent(text);
 	}
 
-	public Component asComponent(@NotNull String text, Replacement... placeholders) {
+	public static Component asComponent(@NotNull String text, Replacement... placeholders) {
 		for (Replacement replacement : placeholders) {
 			String key = "%" + replacement.original() + "%";
 			String value = replacement.replacement();
@@ -74,11 +72,11 @@ public class StringUtil {
 		return asComponent(text);
 	}
 
-	public List<Component> asFormattedList(@NotNull List<String> list) {
+	public static List<Component> asFormattedList(@NotNull List<String> list) {
 		return asFormattedList(list, new HashMap<>());
 	}
 
-	public List<Component> asFormattedList(@NotNull List<String> list, @NotNull Map<String, String> placeholders) {
+	public static List<Component> asFormattedList(@NotNull List<String> list, @NotNull Map<String, String> placeholders) {
 		List<Component> components = new ArrayList<>();
 
 		for (String line : list) {
@@ -87,7 +85,7 @@ public class StringUtil {
 		return components;
 	}
 
-	public List<Component> asFormattedList(@NotNull List<String> list, @NotNull Replacement... placeholders) {
+	public static List<Component> asFormattedList(@NotNull List<String> list, @NotNull Replacement... placeholders) {
 		List<Component> components = new ArrayList<>();
 
 		for (String line : list) {
@@ -96,11 +94,11 @@ public class StringUtil {
 		return components;
 	}
 
-	public String asString(@NotNull Component component) {
+	public static String asString(@NotNull Component component) {
 		return LegacyComponentSerializer.legacyAmpersand().serialize(component);
 	}
 
-	public boolean isSimilarWord(String word, Set<String> wordList) {
+	public static boolean isSimilarWord(String word, Set<String> wordList) {
 		for (String s : wordList) {
 			int levenshteinDistance = calculateLevenshteinDistance(word, s);
 			int maxLength = Math.max(word.length(), s.length());
@@ -115,7 +113,7 @@ public class StringUtil {
 		}
 		return false;
 	}
-	public boolean isSimilarWord(String word, Set<String> wordList, double percentage) {
+	public static boolean isSimilarWord(String word, Set<String> wordList, double percentage) {
 		for (String s : wordList) {
 			int levenshteinDistance = calculateLevenshteinDistance(word, s);
 			int maxLength = Math.max(word.length(), s.length());
@@ -131,7 +129,7 @@ public class StringUtil {
 		return false;
 	}
 
-	public boolean isSimilarWord(String word, String anotherWord) {
+	public static boolean isSimilarWord(String word, String anotherWord) {
 		int levenshteinDistance = calculateLevenshteinDistance(word, anotherWord);
 		int maxLength = Math.max(word.length(), anotherWord.length());
 
@@ -142,7 +140,7 @@ public class StringUtil {
 		return similarity >= 0.7;
 	}
 
-	public boolean isSimilarWord(String word, String anotherWord, double percentage){
+	public static boolean isSimilarWord(String word, String anotherWord, double percentage){
 		int levenshteinDistance = calculateLevenshteinDistance(word, anotherWord);
 		int maxLength = Math.max(word.length(), anotherWord.length());
 
@@ -154,7 +152,7 @@ public class StringUtil {
 	}
 
 	// Helper method to calculate Levenshtein Distance
-	public int calculateLevenshteinDistance(String word1, String word2) {
+	public static int calculateLevenshteinDistance(String word1, String word2) {
 		int[][] distances = new int[word1.length() + 1][word2.length() + 1];
 
 		for (int previousLetter = 0; previousLetter <= word1.length(); previousLetter++) {

@@ -1,13 +1,11 @@
 package com.creepyx.creepybase.util;
 
-import lombok.Getter;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
-@Getter
 public class TimeUtil {
 
 	public Timestamp getTimestamp() {

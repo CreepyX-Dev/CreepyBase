@@ -2,11 +2,10 @@ package com.creepyx.creepybase;
 
 import com.creepyx.creepybase.util.LogType;
 import com.creepyx.creepybase.util.LogUtil;
-import lombok.Getter;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
 
@@ -15,7 +14,6 @@ import java.util.Objects;
  * it extends the {@link JavaPlugin} class and implements the {@link Listener} interface
  * and also registers the plugin main Class as a listener
  */
-@Getter
 public abstract class CreepyBase extends JavaPlugin implements Listener {
 
 	/**
@@ -95,7 +93,7 @@ public abstract class CreepyBase extends JavaPlugin implements Listener {
 
 			} catch (final IllegalStateException ex) {
 				if (Bukkit.getPluginManager().getPlugin("PlugMan") != null)
-					LogUtil.log(LogType.ERROR,"Failed to get instance of the plugin, if you reloaded using PlugMan you need to do a clean restart instead.");
+					LogUtil.log(LogType.ERROR, "Failed to get instance of the plugin, if you reloaded using PlugMan you need to do a clean restart instead.");
 
 				throw ex;
 			}
@@ -104,6 +102,22 @@ public abstract class CreepyBase extends JavaPlugin implements Listener {
 		}
 
 		return instance;
+	}
+
+	public String getLogPrefix() {
+		return logPrefix;
+	}
+
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public void setLogPrefix(String logPrefix) {
+		this.logPrefix = logPrefix;
+	}
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
 	}
 
 	/**
