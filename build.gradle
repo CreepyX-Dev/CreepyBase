@@ -6,8 +6,9 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "2.2.0-Beta1"
 }
 
-group = 'com.creepyx'
-version = '1.3.2'
+// Allow overriding via -Pgroup and -Pversion (JitPack uses this)
+group = project.findProperty("group") ?: 'com.creepyx'
+version = project.findProperty("version") ?: '1.3.3'
 
 // Task to generate the sources JAR
 tasks.register('sourcesJar', Jar) {
@@ -15,21 +16,31 @@ tasks.register('sourcesJar', Jar) {
     from sourceSets.main.allSource
 }
 
+// Publishing configuration for JitPack
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            from components.java
+
+            artifact tasks.named("sourcesJar").get()
+
+            groupId = project.group
+            artifactId = "CreepyBase" // Ensure this matches your repo/module name
+            version = project.version
+        }
+    }
+
+    repositories {
+        mavenLocal()
+    }
+}
 
 repositories {
     mavenCentral()
-    maven {
-        url = 'https://jitpack.io'
-    }
-    maven {
-        url = 'https://repo.papermc.io/repository/maven-public/'
-    }
-    maven {
-        url = "https://repo.codemc.org/repository/maven-public/"
-    }
-    maven {
-        url = "https://maven.enginehub.org/repo/"
-    }
+    maven { url = 'https://jitpack.io' }
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+    maven { url = "https://repo.codemc.org/repository/maven-public/" }
+    maven { url = "https://maven.enginehub.org/repo/" }
     maven {
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
@@ -58,7 +69,6 @@ java {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
         options.release.set(targetJavaVersion)
     }
@@ -67,19 +77,17 @@ tasks.withType(JavaCompile).configureEach {
 configurations.configureEach {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         if (details.requested.group == 'com.google.code.gson' && details.requested.name == 'gson') {
-            // Force all dependencies to use Gson 2.11.0
             details.useVersion '2.11.0'
         }
         if (details.requested.group == 'com.google.guava' && details.requested.name == 'guava') {
-            // Force all dependencies to use Guava 30.1-jre
             details.useVersion '30.1-jre'
         }
         if (details.requested.group == 'it.unimi.dsi' && details.requested.name == 'fastutil') {
-            // Force the use of fastutil version 8.5.15
             details.useVersion '8.5.15'
         }
     }
 }
+
 kotlin {
     jvmToolchain(21)
 }
