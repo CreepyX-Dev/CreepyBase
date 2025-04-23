@@ -130,9 +130,9 @@ public class Config extends CustomConfig {
 	@Override
 	public @Nullable Location getLocation(@NotNull String path) {
 		String world = this.getString(path + ".World");
-		int x = this.getInt(path + ".X");
-		int y = this.getInt(path + ".Y");
-		int z = this.getInt(path + ".Z");
+		double x = this.getDouble(path + ".X");
+		double y = this.getDouble(path + ".Y");
+		double z = this.getDouble(path + ".Z");
 		float yaw = (float) this.getDouble(path + ".Yaw");
 		float pitch = (float) this.getDouble(path + ".Pitch");
 

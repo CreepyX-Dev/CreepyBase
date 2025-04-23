@@ -43,19 +43,18 @@ fun String.c(placeholders: Map<String, String> = emptyMap(), withPrefix: Boolean
 }
 
 fun String.msg(
-    key: String,
     placeholders: Map<String, String> = mapOf(),
     withPrefix: Boolean = false,
     fallback: String?
-): Component? {
+): Component {
     if (MessageUtil.getConfig() == null) {
-        LogUtil.log(LogType.ERROR, "[MessageConfig] Config is null or empty!")
-        return null
+        LogUtil.log(LogType.ERROR, "${MessageUtil.getConfig().name} is null or empty!")
+        return Component.empty()
     }
     if (fallback != null) {
-        return MessageUtil.getConfig().getString(key, fallback)!!.c(placeholders, withPrefix)
+        return MessageUtil.getConfig().getString(this, fallback)!!.c(placeholders, withPrefix)
     }
-    return MessageUtil.getConfig().getString(key, key)!!.c(placeholders, withPrefix)
+    return MessageUtil.getConfig().getString(this, this)!!.c(placeholders, withPrefix)
 }
 
 fun String.log(logType: LogType) {
@@ -72,10 +71,10 @@ fun List<String>.toComponents(placeholders: Map<String, String> = emptyMap()): L
     return components
 }
 
-fun isSimilarWord(word: String, wordList: Set<String>): Boolean {
+fun String.isSimilarWord( wordList: Set<String>): Boolean {
     for (s in wordList) {
-        val levenshteinDistance = calculateLevenshteinDistance(word, s)
-        val maxLength = max(word.length.toDouble(), s.length.toDouble()).toInt()
+        val levenshteinDistance = calculateLevenshteinDistance(this, s)
+        val maxLength = max(this.length.toDouble(), s.length.toDouble()).toInt()
 
         // Calculate similarity percentage
         val similarity = 1 - levenshteinDistance.toDouble() / maxLength
@@ -88,17 +87,17 @@ fun isSimilarWord(word: String, wordList: Set<String>): Boolean {
     return false
 }
 
-fun isSimilarWord(word: String, wordList: Set<String>, percentage: Double = 0.7): Boolean {
+fun String.isSimilarWord(wordList: Set<String>, percentage: Double = 0.7): Boolean {
     for (s in wordList) {
-        if (isSimilarWord(word, s, percentage))
+        if (this.isSimilarWord(s, percentage))
             return true
     }
     return false
 }
 
-fun isSimilarWord(word: String, anotherWord: String, percentage: Double = 0.7): Boolean {
-    val levenshteinDistance = calculateLevenshteinDistance(word, anotherWord)
-    val maxLength = max(word.length.toDouble(), anotherWord.length.toDouble()).toInt()
+fun String.isSimilarWord( anotherWord: String, percentage: Double = 0.7): Boolean {
+    val levenshteinDistance = calculateLevenshteinDistance(this, anotherWord)
+    val maxLength = max(this.length.toDouble(), anotherWord.length.toDouble()).toInt()
 
     // Calculate similarity percentage
     val similarity = 1 - levenshteinDistance.toDouble() / maxLength
@@ -108,7 +107,7 @@ fun isSimilarWord(word: String, anotherWord: String, percentage: Double = 0.7): 
 }
 
 // Helper method to calculate Levenshtein Distance
-fun calculateLevenshteinDistance(word1: String, word2: String): Int {
+private fun calculateLevenshteinDistance(word1: String, word2: String): Int {
     val distances = Array(word1.length + 1) { IntArray(word2.length + 1) }
 
     for (previousLetter in 0..word1.length) {
